@@ -26,23 +26,29 @@ def find_basic_model() -> str:
     def is_reversed(name: str) -> bool:
         return "reversed" in name.lower()
 
-    # Prefer exact "Basic" (case-insensitive), then any non-reversed Basic variant
+    # Find models with Front and Back fields, preferring:
+    # 1. Exact "Basic" (case-insensitive)
+    # 2. Non-reversed Basic variant
+    # 3. Any non-reversed model with Front/Back
+    # 4. Last resort: reversed model with Front/Back
+    candidates = []
     for m in models:
-        if m.lower() == "basic":
-            return m
-    for m in models:
-        if m.lower().startswith("basic") and not is_reversed(m):
-            fields_resp = anki_request("modelFieldNames", modelName=m)
-            fields = fields_resp.get("result", [])
-            if "Front" in fields and "Back" in fields:
-                return m
-    # Last resort: allow reversed if nothing else has Front/Back
-    for m in models:
-        if m.lower().startswith("basic"):
-            fields_resp = anki_request("modelFieldNames", modelName=m)
-            fields = fields_resp.get("result", [])
-            if "Front" in fields and "Back" in fields:
-                return m
+        fields_resp = anki_request("modelFieldNames", modelName=m)
+        fields = fields_resp.get("result", [])
+        if "Front" in fields and "Back" in fields:
+            candidates.append(m)
+
+    for c in candidates:
+        if c.lower() == "basic":
+            return c
+    for c in candidates:
+        if c.lower().startswith("basic") and not is_reversed(c):
+            return c
+    for c in candidates:
+        if not is_reversed(c):
+            return c
+    if candidates:
+        return candidates[0]
 
     print("Error: No note type with Front/Back fields found.", file=sys.stderr)
     print(f"Available models: {models}", file=sys.stderr)
