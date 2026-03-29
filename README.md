@@ -3,7 +3,7 @@
 <img src="assets/clawd-shimmer.gif" width="200" alt="Clawd">
 <h1>ccflash</h1>
 
-A <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank">Claude Code</a> skill that turns any conversation into Anki flashcards.
+A Claude Code skill that turns any conversation into Anki flashcards.
 Claude analyzes what you discussed, generates simple fill-in-the-blank cards, lets you review and edit them, then uploads directly to Anki.
 
 <a href="https://apps.ankiweb.net/" target="_blank"><img src="https://img.shields.io/badge/Anki-236bc5?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHRleHQgeT0iMjAiIGZvbnQtc2l6ZT0iMjAiPvCfk6Y8L3RleHQ+PC9zdmc+&logoColor=white" alt="Anki"></a>
