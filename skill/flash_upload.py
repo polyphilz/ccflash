@@ -23,13 +23,22 @@ def find_basic_model() -> str:
     resp = anki_request("modelNames")
     models = resp.get("result", [])
 
-    # Prefer exact "Basic" (case-insensitive), then any model starting with "Basic"
+    def is_reversed(name: str) -> bool:
+        return "reversed" in name.lower()
+
+    # Prefer exact "Basic" (case-insensitive), then any non-reversed Basic variant
     for m in models:
         if m.lower() == "basic":
             return m
     for m in models:
+        if m.lower().startswith("basic") and not is_reversed(m):
+            fields_resp = anki_request("modelFieldNames", modelName=m)
+            fields = fields_resp.get("result", [])
+            if "Front" in fields and "Back" in fields:
+                return m
+    # Last resort: allow reversed if nothing else has Front/Back
+    for m in models:
         if m.lower().startswith("basic"):
-            # Verify it has Front and Back fields
             fields_resp = anki_request("modelFieldNames", modelName=m)
             fields = fields_resp.get("result", [])
             if "Front" in fields and "Back" in fields:
