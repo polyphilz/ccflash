@@ -94,46 +94,29 @@ Don't just card facts that were explicitly stated — also card deductions and c
 
 Respect the density level — be selective at `light`, thorough at `heavy`.
 
-## Step 5: Interactive review
+## Step 5: Conversational review
 
-1. Generate a unique suffix for this run: `SUFFIX=$(date +%s)_$$`
-2. Write the cards as JSON to `/tmp/flash_cards_input_${SUFFIX}.json`:
-   ```json
-   [{"front": "...", "back": "..."}, ...]
-   ```
-3. Run the review script:
-   ```bash
-   python3 ${CLAUDE_SKILL_DIR}/flash_review.py /tmp/flash_cards_input_${SUFFIX}.json /tmp/flash_cards_reviewed_${SUFFIX}.json
-   ```
-   This is an **interactive terminal UI** — the user will review each card, edit or delete as needed, and confirm upload. Let it run without timeout constraints.
-4. Read `/tmp/flash_cards_reviewed_${SUFFIX}.json` for the final set.
+Present all cards in a numbered table so the user can see them at a glance. Then ask the user to review — they can:
+- Say "upload" or "looks good" to upload all cards
+- Say "delete 3, 7, 12" to remove specific cards
+- Say "edit 4 front to ..." or "edit 4 back to ..." to modify a card
+- Make multiple edits before uploading
+
+Wait for the user's explicit confirmation before uploading. Do NOT upload without approval.
 
 ## Step 6: Upload to Anki
 
-Write a short inline Python script that reads the reviewed JSON file and uploads each card via AnkiConnect. This avoids shell escaping issues with backticks, quotes, and special characters in card text.
+Once the user approves, write the final cards as JSON to `/tmp/flash_cards_<SUFFIX>.json` (use `SUFFIX=$(date +%s)_$$` for uniqueness):
 
-```bash
-python3 -c "
-import json, urllib.request, sys
-
-deck = 'DECK_NAME'
-with open('REVIEWED_JSON_PATH') as f:
-    cards = json.load(f)
-
-ok = 0
-for card in cards:
-    payload = json.dumps({'action': 'addNote', 'version': 6, 'params': {'note': {'deckName': deck, 'modelName': 'Basic', 'fields': {'Front': card['front'], 'Back': card['back']}}}})
-    req = urllib.request.Request('http://localhost:8765', data=payload.encode(), headers={'Content-Type': 'application/json'})
-    resp = json.loads(urllib.request.urlopen(req).read())
-    if resp.get('error'):
-        print(f'FAILED: {card[\"front\"][:50]}... — {resp[\"error\"]}', file=sys.stderr)
-    else:
-        ok += 1
-print(f'{ok}/{len(cards)} cards added to {deck}')
-"
+```json
+[{"front": "...", "back": "..."}, ...]
 ```
 
-Replace `DECK_NAME` and `REVIEWED_JSON_PATH` with the actual values.
+Then upload via the upload script:
+
+```bash
+python3 ${CLAUDE_SKILL_DIR}/flash_upload.py /tmp/flash_cards_<SUFFIX>.json "DECK_NAME"
+```
 
 Report the result to the user: how many cards were added and to which deck.
 

@@ -19,7 +19,7 @@ SKILLS_DIR="$HOME/.claude/skills"
 is_local_clone() {
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)" || return 1
-    [ -f "$script_dir/skill/SKILL.md" ] && [ -f "$script_dir/skill/flash_review.py" ]
+    [ -f "$script_dir/skill/SKILL.md" ] && [ -f "$script_dir/skill/flash_upload.py" ]
 }
 
 echo "Installing ccflash..."
@@ -44,9 +44,9 @@ else
     curl -fsSL "$REPO_RAW/skill/SKILL.md" -o "$SKILLS_DIR/flash/SKILL.md"
     echo "  Downloaded SKILL.md -> $SKILLS_DIR/flash/SKILL.md"
 
-    curl -fsSL "$REPO_RAW/skill/flash_review.py" -o "$SKILLS_DIR/flash/flash_review.py"
-    chmod +x "$SKILLS_DIR/flash/flash_review.py"
-    echo "  Downloaded flash_review.py -> $SKILLS_DIR/flash/flash_review.py"
+    curl -fsSL "$REPO_RAW/skill/flash_upload.py" -o "$SKILLS_DIR/flash/flash_upload.py"
+    chmod +x "$SKILLS_DIR/flash/flash_upload.py"
+    echo "  Downloaded flash_upload.py -> $SKILLS_DIR/flash/flash_upload.py"
 fi
 
 # Check AnkiConnect reachability

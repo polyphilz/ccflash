@@ -72,16 +72,14 @@ Claude will analyze the conversation, generate flashcards, and walk you through 
 
 Density levels: `light`/`L` (~5-15 cards, default), `medium`/`M` (~15-40), `heavy`/`H` (40+).
 
-### Card review controls
+### Card review
 
-| Key | Action |
-|-----|--------|
-| `Enter` | Keep the card |
-| `e` | Edit front and/or back |
-| `d` | Delete the card |
-| `q` | Quit without uploading |
+Claude presents all cards in a numbered table. You can:
+- Say **"upload"** or **"looks good"** to upload all cards
+- Say **"delete 3, 7, 12"** to remove specific cards
+- Say **"edit 4 front to ..."** to modify a card
 
-After reviewing all cards, you'll see a summary and a final confirmation before anything is uploaded.
+Nothing is uploaded until you explicitly confirm.
 
 ### Example cards
 
@@ -149,9 +147,9 @@ Cards stay factual and concrete. The spacing effect [weakens sharply](https://gw
 ## How it works
 
 1. `/flash` triggers a Claude Code [skill](https://docs.anthropic.com/en/docs/claude-code/skills) that prompts Claude to analyze the conversation
-2. Claude generates flashcards as JSON and writes them to a temp file
-3. A Python script presents an interactive terminal UI for reviewing, editing, and deleting cards
-4. Approved cards are uploaded to Anki via [AnkiConnect's](https://foosoft.net/projects/anki-connect/) REST API on `localhost:8765`
+2. Claude generates flashcards and presents them in a numbered table for review
+3. You edit or delete cards conversationally, then confirm upload
+4. A Python script uploads approved cards to Anki via [AnkiConnect's](https://foosoft.net/projects/anki-connect/) REST API on `localhost:8765`
 
 Anki must be running with AnkiConnect installed — the skill checks this before generating cards and warns you if it's not reachable.
 
