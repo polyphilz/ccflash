@@ -86,6 +86,16 @@ After reviewing all cards, you'll see a summary and a final confirmation before 
 | AnkiConnect listens on port ___ | 8765 |
 | In Claude Code, MCP servers are configured in the ___ file | .mcp.json |
 
+## Card methodology
+
+Card design follows principles from Michael Nielsen's [Augmenting Long-term Memory](https://augmentingcognition.com/ltm.html):
+
+- **Atomic cards** — each card tests exactly one idea. If a question has two parts, it becomes two cards. Breaking compound questions into atomic pieces turns cards you routinely get wrong into cards you routinely get right.
+- **Fill-in-the-blank** — fronts are a sentence with a blank (`___`), backs are a single word or short phrase. This format (cloze deletion) is more effective for recall than open-ended questions.
+- **No yes/no questions** — these are a "question smell." Instead of "Is AnkiConnect a REST API?", ask "AnkiConnect exposes a ___ API on localhost" (REST).
+- **No orphan cards** — a single isolated card about a topic decays quickly in memory. Cards are generated in clusters of 2-3+ per concept. If a concept isn't worth multiple cards, it's skipped.
+- **Claims, not facts** — when something discussed was uncertain or debatable, cards frame it as "According to X, the approach is ___" rather than stating it as settled fact.
+
 ## How it works
 
 1. `/flash` triggers a Claude Code [skill](https://docs.anthropic.com/en/docs/claude-code/skills) that prompts Claude to analyze the conversation
