@@ -12,7 +12,10 @@ def clear():
 
 
 def print_divider():
-    cols = os.get_terminal_size(fallback=(80, 24)).columns
+    try:
+        cols = os.get_terminal_size().columns
+    except OSError:
+        cols = 80
     print("\033[90m" + "─" * cols + "\033[0m")
 
 
