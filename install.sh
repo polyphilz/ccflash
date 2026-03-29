@@ -17,6 +17,7 @@ REPO_RAW="https://raw.githubusercontent.com/${GITHUB_REPO}/main"
 SKILLS_DIR="$HOME/.claude/skills"
 
 is_local_clone() {
+    [ -z "${BASH_SOURCE[0]:-}" ] && return 1
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)" || return 1
     [ -f "$script_dir/skill/SKILL.md" ] && [ -f "$script_dir/skill/flash_upload.py" ]
