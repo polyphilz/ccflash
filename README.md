@@ -10,6 +10,10 @@ Claude analyzes what you discussed, generates simple fill-in-the-blank cards, le
 <a href="https://www.python.org/" target="_blank"><img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white" alt="Python"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 
+<br>
+
+![demo](assets/ccflash-demo.gif)
+
 </div>
 
 ## Features

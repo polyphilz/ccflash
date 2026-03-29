@@ -2,3 +2,4 @@
 __pycache__/
 *.pyc
 /flash_config.json
+assets/*.mp4
