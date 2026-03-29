@@ -63,9 +63,14 @@ Claude will analyze the conversation, generate flashcards, and walk you through 
 
 | Command | Description |
 |---------|-------------|
-| `/flash` | Generate cards, ask which deck to use |
+| `/flash` | Generate cards at light density (default) |
+| `/flash M` | Medium density (~15-40 cards) |
+| `/flash H` | Heavy density (40+ cards) |
 | `/flash --deck "My Deck"` | Target a specific deck |
+| `/flash M --deck "My Deck"` | Combine density + deck |
 | `/flash --set-default-deck "My Deck"` | Save a default deck for future use |
+
+Density levels: `light`/`L` (~5-15 cards, default), `medium`/`M` (~15-40), `heavy`/`H` (40+).
 
 ### Card review controls
 

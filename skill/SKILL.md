@@ -1,9 +1,9 @@
 ---
 name: flash
-description: Generate Anki flashcards from the current conversation. Analyzes what was learned and creates simple fill-in-the-blank cards, lets the user review/edit/delete them interactively, then uploads to Anki via AnkiConnect.
+description: Generate Anki flashcards from the current conversation. Analyzes what was learned and creates simple single-principle cards, lets the user review/edit/delete them interactively, then uploads to Anki via AnkiConnect.
 allowed-tools: Bash, Read, Write
 user-invocable: true
-argument-hint: "[--deck <deck_name>] [--set-default-deck <deck_name>]"
+argument-hint: "[--deck <deck_name>] [--set-default-deck <deck_name>] [light|medium|heavy]"
 ---
 
 # /flash — Anki flashcard generator
@@ -14,6 +14,9 @@ You are creating Anki flashcards from the current conversation.
 
 - `--deck <name>` — target Anki deck (overrides default)
 - `--set-default-deck <name>` — save a default deck to `~/.claude/flash_config.json` and exit
+- `light` / `L` — only the most essential concepts, ~5-15 cards (default)
+- `medium` / `M` — solid coverage, ~15-40 cards
+- `heavy` / `H` — comprehensive, card everything discussed, 40+ cards
 
 ## Step 1: Check AnkiConnect is reachable
 
@@ -40,7 +43,15 @@ Priority order:
 
 ## Step 4: Generate flashcards
 
-Analyze the **full conversation** above this /flash invocation. Identify every distinct concept, fact, term, command, API, pattern, or technique that was discussed or learned.
+Determine the density level from the arguments. Accept `light`, `L`, `medium`, `M`, `heavy`, or `H` (case-insensitive). **Default is light.**
+
+| Level | Target | What to card |
+|-------|--------|--------------|
+| light | ~5-15 cards | Only the most important takeaways — things you'd be embarrassed to forget |
+| medium | ~15-40 cards | Solid coverage of all major concepts, skip minor details |
+| heavy | 40+ cards | Comprehensive — card everything discussed, including details and edge cases |
+
+Analyze the **full conversation** above this /flash invocation. Identify concepts, facts, terms, commands, APIs, patterns, or techniques that were discussed or learned, filtered by the density level above.
 
 **Card style — keep it simple:**
 - The **back** should almost always be a **single word or very short phrase** (1–4 words max).
@@ -81,7 +92,7 @@ Don't just card facts that were explicitly stated — also card deductions and c
 - A single orphan card about a topic with no related cards
 - Ambiguous blank where multiple answers fit — add more context
 
-Use your judgment on card count — cover everything that was discussed.
+Respect the density level — be selective at `light`, thorough at `heavy`.
 
 ## Step 5: Interactive review
 
