@@ -29,18 +29,26 @@ Claude analyzes what you discussed, generates simple fill-in-the-blank cards, le
 ## Quick Start
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/polyphilz/ccflash/main/install.sh | bash
+```
+
+This downloads the skill and review script into `~/.claude/`. Restart Claude Code to pick up the new skill.
+
+### Local development
+
+If you want to hack on ccflash, clone and install with symlinks instead:
+
+```bash
 git clone https://github.com/polyphilz/ccflash.git ~/projects/ccflash
 cd ~/projects/ccflash && ./install.sh
 ```
 
-The install script symlinks the skill and review script into `~/.claude/`:
+The install script detects the local clone and symlinks rather than downloading:
 
 ```
-~/.claude/skills/flash        -> ~/projects/ccflash/skill
+~/.claude/skills/flash            -> ~/projects/ccflash/skill
 ~/.claude/scripts/flash_review.py -> ~/projects/ccflash/scripts/flash_review.py
 ```
-
-Restart Claude Code to pick up the new skill.
 
 ## Usage
 
@@ -87,29 +95,6 @@ After reviewing all cards, you'll see a summary and a final confirmation before 
 4. Approved cards are uploaded to Anki via [AnkiConnect's](https://foosoft.net/projects/anki-connect/) REST API on `localhost:8765`
 
 Anki must be running with AnkiConnect installed — the skill checks this before generating cards and warns you if it's not reachable.
-
-<details>
-<summary><strong>Manual setup</strong></summary>
-
-If you prefer not to use `install.sh`:
-
-**1. Clone the repo:**
-
-```bash
-git clone https://github.com/polyphilz/ccflash.git ~/projects/ccflash
-```
-
-**2. Symlink into Claude Code:**
-
-```bash
-mkdir -p ~/.claude/skills ~/.claude/scripts
-ln -s ~/projects/ccflash/skill ~/.claude/skills/flash
-ln -s ~/projects/ccflash/scripts/flash_review.py ~/.claude/scripts/flash_review.py
-```
-
-**3. Restart Claude Code.**
-
-</details>
 
 ## License
 
