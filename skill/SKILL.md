@@ -46,11 +46,23 @@ Analyze the **full conversation** above this /flash invocation. Identify every d
 - The **back** should almost always be a **single word or very short phrase** (1–4 words max).
 - The **front** should be a sentence or question with a blank (`___`) where the answer goes.
 - Each card tests exactly ONE thing (atomic). If a question has two parts, split it into two cards.
-- Prefer fill-in-the-blank over open-ended questions.
+- Prefer fill-in-the-blank over open-ended questions. **Never** use multiple choice — seeing wrong answers creates false memories.
 - **Never** use yes/no questions — they are a "question smell." Refactor into a specific fill-in-the-blank.
+- Keep cards concrete and factual. Don't try to test abstract reasoning or complex conceptual understanding — the spacing effect weakens sharply with high conceptual difficulty.
 - Cover breadth: make cards for all distinct concepts, not just the main topic.
 - **No orphan cards**: create clusters of 2–3+ related cards per concept. A single isolated card about a topic decays quickly. If a concept isn't worth 2+ cards, skip it.
 - If something discussed was uncertain or debatable, frame it as a claim: "According to X, the recommended approach is ___" rather than stating it as fact.
+
+**Precision — one defensible answer per blank:**
+Every blank must have exactly ONE correct answer. If multiple words could fit, the card is imprecise and will train you to memorize the sentence pattern rather than the concept (Bjornstad's "overfitting" problem). Fix by adding context to disambiguate.
+
+| BAD (ambiguous) | GOOD (precise) |
+|---|---|
+| Claude Code skills are defined in a ___ file | Claude Code skills are defined in a file named ___ (SKILL.md) |
+| The Articles of Confederation had no power to regulate ___ | The Articles of Confederation's lack of power to regulate ___ between states was a key weakness (commerce) |
+
+**Cache your insights:**
+Don't just card facts that were explicitly stated — also card deductions and connections that emerged during the conversation. The insight you arrived at is often more valuable than the raw fact.
 
 **Examples of good cards:**
 | Front | Back |
@@ -59,6 +71,7 @@ Analyze the **full conversation** above this /flash invocation. Identify every d
 | AnkiConnect listens on port ___ | 8765 |
 | The AnkiConnect add-on code for Anki's add-on installer is ___ | 2055492159 |
 | `uv tool install` installs a Python CLI tool into an isolated ___ | environment |
+| Using direct curl to AnkiConnect instead of an MCP server avoids ___ bloat | context |
 
 **Examples of BAD cards (don't do this):**
 - Back is a full sentence or paragraph
@@ -66,6 +79,7 @@ Analyze the **full conversation** above this /flash invocation. Identify every d
 - Card tests multiple things at once
 - Yes/no question like "Is AnkiConnect a REST API?" (refactor to fill-in-the-blank)
 - A single orphan card about a topic with no related cards
+- Ambiguous blank where multiple answers fit — add more context
 
 Use your judgment on card count — cover everything that was discussed.
 

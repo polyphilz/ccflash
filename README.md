@@ -88,13 +88,58 @@ After reviewing all cards, you'll see a summary and a final confirmation before 
 
 ## Card methodology
 
-Card design follows principles from Michael Nielsen's [Augmenting Long-term Memory](https://augmentingcognition.com/ltm.html):
+Card design draws from several foundational works on spaced repetition and memory:
 
-- **Atomic cards** — each card tests exactly one idea. If a question has two parts, it becomes two cards. Breaking compound questions into atomic pieces turns cards you routinely get wrong into cards you routinely get right.
-- **Fill-in-the-blank** — fronts are a sentence with a blank (`___`), backs are a single word or short phrase. This format (cloze deletion) is more effective for recall than open-ended questions.
-- **No yes/no questions** — these are a "question smell." Instead of "Is AnkiConnect a REST API?", ask "AnkiConnect exposes a ___ API on localhost" (REST).
-- **No orphan cards** — a single isolated card about a topic decays quickly in memory. Cards are generated in clusters of 2-3+ per concept. If a concept isn't worth multiple cards, it's skipped.
+<details>
+<summary><strong>Atomicity</strong> — each card tests exactly one idea (<a href="https://augmentingcognition.com/ltm.html">Nielsen</a>, <a href="https://super-memory.com/articles/20rules.htm">Wozniak</a>)</summary>
+<br>
+
+If a question has two parts, it becomes two cards. Nielsen demonstrated that breaking compound questions into atomic pieces turns cards you routinely get wrong into cards you routinely get right. This is Wozniak's "minimum information principle" — the most important rule in his [20 Rules of Formulating Knowledge](https://super-memory.com/articles/20rules.htm).
+</details>
+
+<details>
+<summary><strong>Fill-in-the-blank over other formats</strong> — cloze deletion triggers the generation effect (<a href="https://gwern.net/spaced-repetition">Gwern</a>)</summary>
+<br>
+
+Fronts are a sentence with a blank (`___`), backs are a single word or short phrase. Producing an answer creates stronger memory than recognizing one. Multiple choice is actively avoided because seeing wrong answers creates "negative suggestion effects" that make false information more memorable.
+</details>
+
+<details>
+<summary><strong>Precision</strong> — every blank has exactly one defensible answer (<a href="https://controlaltbackspace.org/precise/">Bjornstad</a>)</summary>
+<br>
+
+Bjornstad frames imprecise cards as an [overfitting](https://en.wikipedia.org/wiki/Overfitting) problem: if the blank is ambiguous, you end up memorizing the sentence pattern rather than the underlying concept. Since ccflash generates cards from conversation text (rather than hand-crafting them), this risk is elevated — the skill adds context to disambiguate wherever multiple answers could fit.
+</details>
+
+<details>
+<summary><strong>No orphan cards</strong> — clusters of 2-3+ cards per concept (<a href="https://augmentingcognition.com/ltm.html">Nielsen</a>)</summary>
+<br>
+
+A single isolated card about a topic decays quickly. Cards are generated in clusters of 2-3+ per concept. If a concept isn't worth multiple cards, it's skipped entirely.
+</details>
+
+<details>
+<summary><strong>Insight caching</strong> — card your deductions, not just stated facts (<a href="https://borretti.me/article/effective-spaced-repetition">Borretti</a>)</summary>
+<br>
+
+Cards aren't limited to facts explicitly stated in conversation. Borretti's "insight caching" principle: the deductions and connections you arrive at while learning are often more valuable than the raw facts. The skill also generates cards for insights that emerged during discussion.
+</details>
+
+<details>
+<summary><strong>Concrete over abstract</strong> — spacing effect weakens with conceptual difficulty (<a href="https://gwern.net/spaced-repetition">Gwern</a>)</summary>
+<br>
+
+Cards stay factual and concrete. The spacing effect [weakens sharply](https://gwern.net/spaced-repetition#complexity) with high conceptual difficulty — abstract reasoning questions don't benefit from spaced repetition the way factual recall does.
+</details>
+
+<details>
+<summary><strong>Additional rules</strong></summary>
+<br>
+
+- **No yes/no questions** — these are a "question smell" (Nielsen). Refactored into specific fill-in-the-blank.
 - **Claims, not facts** — when something discussed was uncertain or debatable, cards frame it as "According to X, the approach is ___" rather than stating it as settled fact.
+- **No multiple choice** — never used. Seeing wrong options creates false memories (Gwern).
+</details>
 
 ## How it works
 
