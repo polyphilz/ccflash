@@ -32,7 +32,7 @@ Claude analyzes what you discussed, generates simple fill-in-the-blank cards, le
 curl -fsSL https://raw.githubusercontent.com/polyphilz/ccflash/main/install.sh | bash
 ```
 
-This downloads the skill and review script into `~/.claude/`. Restart Claude Code to pick up the new skill.
+This downloads the skill into `~/.claude/skills/flash/`. Restart Claude Code to pick up the new skill.
 
 ### Local development
 
@@ -46,8 +46,7 @@ cd ~/projects/ccflash && ./install.sh
 The install script detects the local clone and symlinks rather than downloading:
 
 ```
-~/.claude/skills/flash            -> ~/projects/ccflash/skill
-~/.claude/scripts/flash_review.py -> ~/projects/ccflash/scripts/flash_review.py
+~/.claude/skills/flash -> ~/projects/ccflash/skill
 ```
 
 ## Usage

@@ -3,7 +3,7 @@ name: flash
 description: Generate Anki flashcards from the current conversation. Analyzes what was learned and creates simple fill-in-the-blank cards, lets the user review/edit/delete them interactively, then uploads to Anki via AnkiConnect.
 allowed-tools: Bash, Read, Write
 user-invocable: true
-argument-description: "[--deck <deck_name>] [--set-default-deck <deck_name>]"
+argument-hint: "[--deck <deck_name>] [--set-default-deck <deck_name>]"
 ---
 
 # /flash — Anki flashcard generator
@@ -45,9 +45,12 @@ Analyze the **full conversation** above this /flash invocation. Identify every d
 **Card style — keep it simple:**
 - The **back** should almost always be a **single word or very short phrase** (1–4 words max).
 - The **front** should be a sentence or question with a blank (`___`) where the answer goes.
-- Each card tests exactly ONE thing.
+- Each card tests exactly ONE thing (atomic). If a question has two parts, split it into two cards.
 - Prefer fill-in-the-blank over open-ended questions.
+- **Never** use yes/no questions — they are a "question smell." Refactor into a specific fill-in-the-blank.
 - Cover breadth: make cards for all distinct concepts, not just the main topic.
+- **No orphan cards**: create clusters of 2–3+ related cards per concept. A single isolated card about a topic decays quickly. If a concept isn't worth 2+ cards, skip it.
+- If something discussed was uncertain or debatable, frame it as a claim: "According to X, the recommended approach is ___" rather than stating it as fact.
 
 **Examples of good cards:**
 | Front | Back |
@@ -61,6 +64,8 @@ Analyze the **full conversation** above this /flash invocation. Identify every d
 - Back is a full sentence or paragraph
 - Front asks "Explain how X works" (too vague)
 - Card tests multiple things at once
+- Yes/no question like "Is AnkiConnect a REST API?" (refactor to fill-in-the-blank)
+- A single orphan card about a topic with no related cards
 
 Use your judgment on card count — cover everything that was discussed.
 
@@ -73,7 +78,7 @@ Use your judgment on card count — cover everything that was discussed.
    ```
 3. Run the review script:
    ```bash
-   python3 ~/.claude/scripts/flash_review.py /tmp/flash_cards_input_${SUFFIX}.json /tmp/flash_cards_reviewed_${SUFFIX}.json
+   python3 ${CLAUDE_SKILL_DIR}/flash_review.py /tmp/flash_cards_input_${SUFFIX}.json /tmp/flash_cards_reviewed_${SUFFIX}.json
    ```
    This is an **interactive terminal UI** — the user will review each card, edit or delete as needed, and confirm upload. Let it run without timeout constraints.
 4. Read `/tmp/flash_cards_reviewed_${SUFFIX}.json` for the final set.
