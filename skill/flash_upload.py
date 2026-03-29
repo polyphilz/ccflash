@@ -3,6 +3,7 @@
 
 import json
 import sys
+import urllib.error
 import urllib.request
 
 ANKI_URL = "http://localhost:8765"
@@ -15,7 +16,12 @@ def anki_request(action: str, **params) -> dict:
         data=payload.encode(),
         headers={"Content-Type": "application/json"},
     )
-    return json.loads(urllib.request.urlopen(req).read())
+    try:
+        return json.loads(urllib.request.urlopen(req).read())
+    except urllib.error.URLError as e:
+        print(f"Error: Cannot reach AnkiConnect at {ANKI_URL} — {e}", file=sys.stderr)
+        print("Make sure Anki is running with AnkiConnect installed.", file=sys.stderr)
+        sys.exit(1)
 
 
 def find_basic_model() -> str:

@@ -3,7 +3,7 @@ name: flash
 description: Generate Anki flashcards from the current conversation. Analyzes what was learned and creates simple single-principle cards, lets the user review/edit/delete them interactively, then uploads to Anki via AnkiConnect.
 allowed-tools: Bash, Read, Write
 user-invocable: true
-argument-hint: "[--deck <deck_name>] [--set-default-deck <deck_name>] [light|medium|heavy]"
+argument-hint: "[L|M|H] [--deck <deck_name>] [--set-default-deck <deck_name>]"
 ---
 
 # /flash — Anki flashcard generator
