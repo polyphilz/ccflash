@@ -5,6 +5,40 @@ import json
 import sys
 import urllib.request
 
+ANKI_URL = "http://localhost:8765"
+
+
+def anki_request(action: str, **params) -> dict:
+    payload = json.dumps({"action": action, "version": 6, "params": params})
+    req = urllib.request.Request(
+        ANKI_URL,
+        data=payload.encode(),
+        headers={"Content-Type": "application/json"},
+    )
+    return json.loads(urllib.request.urlopen(req).read())
+
+
+def find_basic_model() -> str:
+    """Find a note type with Front and Back fields."""
+    resp = anki_request("modelNames")
+    models = resp.get("result", [])
+
+    # Prefer exact "Basic" (case-insensitive), then any model starting with "Basic"
+    for m in models:
+        if m.lower() == "basic":
+            return m
+    for m in models:
+        if m.lower().startswith("basic"):
+            # Verify it has Front and Back fields
+            fields_resp = anki_request("modelFieldNames", modelName=m)
+            fields = fields_resp.get("result", [])
+            if "Front" in fields and "Back" in fields:
+                return m
+
+    print("Error: No note type with Front/Back fields found.", file=sys.stderr)
+    print(f"Available models: {models}", file=sys.stderr)
+    sys.exit(1)
+
 
 def upload_cards(cards_path: str, deck: str) -> None:
     with open(cards_path) as f:
@@ -14,30 +48,24 @@ def upload_cards(cards_path: str, deck: str) -> None:
         print("No cards to upload.")
         sys.exit(1)
 
+    model = find_basic_model()
+    print(f"Using note type: {model}")
+
     ok = 0
     failed = []
     for card in cards:
-        payload = json.dumps({
-            "action": "addNote",
-            "version": 6,
-            "params": {
-                "note": {
+        try:
+            resp = anki_request(
+                "addNote",
+                note={
                     "deckName": deck,
-                    "modelName": "Basic",
+                    "modelName": model,
                     "fields": {
                         "Front": card["front"],
                         "Back": card["back"],
                     },
-                }
-            },
-        })
-        req = urllib.request.Request(
-            "http://localhost:8765",
-            data=payload.encode(),
-            headers={"Content-Type": "application/json"},
-        )
-        try:
-            resp = json.loads(urllib.request.urlopen(req).read())
+                },
+            )
             if resp.get("error"):
                 failed.append((card["front"][:60], resp["error"]))
             else:
